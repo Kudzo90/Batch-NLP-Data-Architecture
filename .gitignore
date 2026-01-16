@@ -1,0 +1,19 @@
+# Large data files
+data/raw/*.json
+data/raw_partitioned/
+data/cleaned/
+data/curated/
+*.parquet
+*.snappy.parquet
+
+# Keep synthetic data generator but not output
+data/babel_briefings_synthetic.csv
+
+# Docker volumes
+clickhouse_data/
+minio_data/
+
+# Python
+__pycache__/
+*.pyc
+.env
