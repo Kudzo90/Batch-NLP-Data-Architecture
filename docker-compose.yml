@@ -1,0 +1,78 @@
+services:
+  minio:
+    image: minio/minio:latest
+    container_name: minio
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    environment:
+      MINIO_ROOT_USER: minioadmin
+      MINIO_ROOT_PASSWORD: minioadmin
+    command: server /data --console-address ":9001"
+    volumes:
+      - minio_data:/data
+
+  airflow:
+    image: apache/airflow:2.7.0
+    container_name: airflow
+    user: root
+    ports:
+      - "8080:8080"
+    environment:
+      AIRFLOW__CORE__EXECUTOR: SequentialExecutor
+      AIRFLOW__CORE__LOAD_EXAMPLES: 'false'
+    volumes:
+      - ./airflow/dags:/opt/airflow/dags
+      - /var/run/docker.sock:/var/run/docker.sock
+      - airflow_data:/opt/airflow
+    # On Linux, we can just use standalone directly if the socket is chmodded
+    command: standalone
+
+  spark-master:
+    image: apache/spark:3.5.3
+    container_name: spark-master
+    ports:
+      - "7077:7077"
+      - "8081:8080"
+    command: bash -c "/opt/spark/sbin/start-master.sh && tail -f /opt/spark/logs/*"
+    volumes:
+      - ./spark/jobs:/opt/spark-jobs
+      - ./data:/data
+      - ./spark/drivers:/opt/spark-drivers
+
+  spark-worker:
+    image: apache/spark:3.5.3
+    container_name: spark-worker
+    command: bash -c "sleep 5 && /opt/spark/sbin/start-worker.sh spark://spark-master:7077 && tail -f /opt/spark/logs/*"
+    depends_on:
+      - spark-master
+    volumes:
+      - ./spark/jobs:/opt/spark-jobs
+      - ./data:/data
+
+  clickhouse:
+    image: clickhouse/clickhouse-server:latest
+    container_name: clickhouse
+    ports:
+      - "8123:8123"
+      - "9009:9000"
+    volumes:
+      - clickhouse_data:/var/lib/clickhouse
+      - ./clickhouse_init:/docker-entrypoint-initdb.d
+
+  fastapi:
+    build: ./fastapi
+    container_name: fastapi
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./data:/data
+    depends_on:
+      - clickhouse
+      - minio
+
+volumes:
+  minio_data: {}
+  clickhouse_data: {}
+  airflow_data: {}
+  data: {}
