@@ -218,6 +218,13 @@ Great Expectations validates:
 - [ ] Add Grafana dashboards for monitoring
 - [ ] Implement CI/CD pipeline
 
+## 📸 Demo Outputs
+
+The `outputs/` folder contains:
+- Airflow DAG execution screenshots (Grid/Graph views)
+- FastAPI endpoint responses
+- Data lake folder structure verification
+
 ## 📝 License
 
 This project is submitted as part of the IU International University MSc Data Science program (DLMDSEDE02).
