@@ -70,7 +70,7 @@ babel-nlp-pipeline/
 ### 1. Clone and Start
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/babel-nlp-pipeline.git
+git clone https://github.com/Kudzo90/Batch-NLP-Data-Architecture.git
 cd babel-nlp-pipeline
 
 # Create data directories
