@@ -222,6 +222,7 @@ Great Expectations validates:
 
 The `outputs/` folder contains:
 - Airflow DAG execution screenshots (Grid/Graph views)
+- Airflow main page
 - FastAPI endpoint responses
 - Data lake folder structure verification
 
