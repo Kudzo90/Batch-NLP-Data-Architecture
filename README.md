@@ -228,7 +228,7 @@ The `outputs/` folder contains:
 
 ## 📝 License
 
-This project is submitted as part of the IU International University MSc Data Science program (DLMDSEDE02).
+This project is submitted as part of the IU International University MSc Data Science program (DLMDSEDE02), and is for Educational Use Only.
 
 ## 👤 Author
 
